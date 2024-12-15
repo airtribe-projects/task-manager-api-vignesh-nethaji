@@ -1,9 +1,10 @@
+const { v4: uuidv4 } = require('uuid');
 let tasks = require('../task.json').tasks;
 
 // Create a new task
 exports.createTask = async (title, description, completed) => {
     const newTask = {
-        id: tasks.length + 1,
+        id: uuidv4(), // Generate a unique ID using UUID
         title,
         description,
         completed
