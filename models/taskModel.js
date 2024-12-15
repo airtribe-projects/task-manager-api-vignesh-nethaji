@@ -20,11 +20,19 @@ exports.getAllTasks = () => {
 
 // Get a task by ID
 exports.getTaskById = (id) => {
+    // Validate the id parameter
+    if (typeof id !== 'string' || !id.match(/^[0-9a-fA-F]{24}$/)) {
+        return null;
+    }
     return tasks.find(t => t.id === id);
 };
 
 // Update a task by ID
 exports.updateTaskById = async (id, title, description, completed) => {
+    // Validate the id parameter
+    if (typeof id !== 'string' || !id.match(/^[0-9a-fA-F]{24}$/)) {
+        return null;
+    }
     const task = tasks.find(t => t.id === id);
     if (!task) {
         return null;
@@ -37,6 +45,10 @@ exports.updateTaskById = async (id, title, description, completed) => {
 
 // Delete a task by ID
 exports.deleteTaskById = async (id) => {
+    // Validate the id parameter
+    if (typeof id !== 'string' || !id.match(/^[0-9a-fA-F]{24}$/)) {
+        return false;
+    }
     const taskIndex = tasks.findIndex(t => t.id === id);
     if (taskIndex === -1) {
         return false;
