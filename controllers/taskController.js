@@ -25,13 +25,17 @@ exports.getAllTasks = async (req, res) => {
 };
 
 // Get a task by ID
-exports.getTaskById = (req, res) => {
-    const taskId = parseInt(req.params.id, 10); // Specify radix 10 for clarity
-    const task = taskModel.getTaskById(taskId);
-    if (!task) {
-        return res.status(404).send('Task not found');
+exports.getTaskById = async (req, res) => {
+    try {
+        const taskId = parseInt(req.params.id, 10); // Specify radix 10 for clarity
+        const task = await taskModel.getTaskById(taskId);
+        if (!task) {
+            return res.status(404).send('Task not found');
+        }
+        res.status(200).json(task);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to retrieve task' });
     }
-    res.status(200).json(task);
 };
 
 // Update a task by ID

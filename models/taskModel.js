@@ -19,23 +19,24 @@ exports.getAllTasks = async () => {
 };
 
 // Get a task by ID
-exports.getTaskById = (id) => {
+exports.getTaskById = async (id) => {
     // Validate the id parameter
     if (typeof id !== 'string' || !id.match(/^[0-9a-fA-F]{24}$/)) {
-        return null;
+        return new Promise((resolve) => resolve(null));
     }
-    return tasks.find(t => t.id === id);
+    const task = tasks.find(t => t.id === id);
+    return new Promise((resolve) => resolve(task));
 };
 
 // Update a task by ID
 exports.updateTaskById = async (id, title, description, completed) => {
     // Validate the id parameter
     if (typeof id !== 'string' || !id.match(/^[0-9a-fA-F]{24}$/)) {
-        return null;
+        return new Promise((resolve) => resolve(null));
     }
     const task = tasks.find(t => t.id === id);
     if (!task) {
-        return null;
+        return new Promise((resolve) => resolve(null));
     }
     // Validate new values
     if (typeof title !== 'undefined') {
@@ -54,11 +55,11 @@ exports.updateTaskById = async (id, title, description, completed) => {
 exports.deleteTaskById = async (id) => {
     // Validate the id parameter
     if (typeof id !== 'string' || !id.match(/^[0-9a-fA-F]{24}$/)) {
-        return false;
+        return new Promise((resolve) => resolve(false));
     }
     const taskIndex = tasks.findIndex(t => t.id === id);
     if (taskIndex === -1) {
-        return false;
+        return new Promise((resolve) => resolve(false));
     }
     tasks.splice(taskIndex, 1);
     return new Promise((resolve) => resolve(true));
