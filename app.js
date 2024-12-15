@@ -12,7 +12,17 @@ app.use('/tasks', taskRoutes);
 // Global error handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send('Something went wrong!');
+
+    // Set status code based on error type
+    if (err.name === 'ValidationError') {
+        return res.status(400).json({ error: err.message });
+    }
+    if (err.name === 'NotFoundError') {
+        return res.status(404).json({ error: err.message });
+    }
+
+    // Default to 500 Internal Server Error
+    res.status(500).json({ error: 'Something went wrong!' });
 });
 
 
