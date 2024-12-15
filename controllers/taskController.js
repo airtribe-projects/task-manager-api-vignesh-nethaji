@@ -15,9 +15,13 @@ exports.createTask = async (req, res) => {
 };
 
 // Get all tasks
-exports.getAllTasks = (req, res) => {
-    const tasks = taskModel.getAllTasks();
-    res.status(200).json(tasks);
+exports.getAllTasks = async (req, res) => {
+    try {
+        const tasks = await taskModel.getAllTasks();
+        res.status(200).json(tasks);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to retrieve tasks' });
+    }
 };
 
 // Get a task by ID

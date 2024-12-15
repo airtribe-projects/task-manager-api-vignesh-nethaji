@@ -14,8 +14,8 @@ exports.createTask = async (title, description, completed) => {
 };
 
 // Get all tasks
-exports.getAllTasks = () => {
-    return tasks;
+exports.getAllTasks = async () => {
+    return new Promise((resolve) => resolve(tasks));
 };
 
 // Get a task by ID
