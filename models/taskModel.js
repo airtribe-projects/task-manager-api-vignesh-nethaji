@@ -37,9 +37,16 @@ exports.updateTaskById = async (id, title, description, completed) => {
     if (!task) {
         return null;
     }
-    task.title = title;
-    task.description = description;
-    task.completed = completed;
+    // Validate new values
+    if (typeof title !== 'undefined') {
+        task.title = title;
+    }
+    if (typeof description !== 'undefined') {
+        task.description = description;
+    }
+    if (typeof completed !== 'undefined' && typeof completed === 'boolean') {
+        task.completed = completed;
+    }
     return new Promise((resolve) => resolve(task));
 };
 
