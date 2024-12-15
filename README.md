@@ -11,18 +11,7 @@ This project is a Task Management API built with Node.js and Express.js. The API
 
 ## Project Structure
 
-project/
-│
-├── app.js
-├── routes/
-│   └── tasks.js
-├── controllers/
-│   └── taskController.js
-├── models/
-│   └── taskModel.js
-├── task.json
-└── test/
-    └── server.test.js
+![Folder Structure](images/TaskManagement.jpg)
 
 ## Setup
 
