@@ -22,7 +22,8 @@ exports.getAllTasks = (req, res) => {
 
 // Get a task by ID
 exports.getTaskById = (req, res) => {
-    const task = taskModel.getTaskById(parseInt(req.params.id));
+    const taskId = parseInt(req.params.id, 10); // Specify radix 10 for clarity
+    const task = taskModel.getTaskById(taskId);
     if (!task) {
         return res.status(404).send('Task not found');
     }
@@ -36,7 +37,8 @@ exports.updateTaskById = async (req, res) => {
         return res.status(400).send('Invalid data');
     }
     try {
-        const updatedTask = await taskModel.updateTaskById(parseInt(req.params.id), title, description, completed);
+        const taskId = parseInt(req.params.id, 10); // Specify radix 10 for clarity
+        const updatedTask = await taskModel.updateTaskById(taskId, title, description, completed);
         if (!updatedTask) {
             return res.status(404).send('Task not found');
         }
@@ -49,7 +51,8 @@ exports.updateTaskById = async (req, res) => {
 // Delete a task by ID
 exports.deleteTaskById = async (req, res) => {
     try {
-        const deleted = await taskModel.deleteTaskById(parseInt(req.params.id));
+        const taskId = parseInt(req.params.id, 10); // Specify radix 10 for clarity
+        const deleted = await taskModel.deleteTaskById(taskId);
         if (!deleted) {
             return res.status(404).send('Task not found');
         }
