@@ -1,7 +1,7 @@
 let tasks = require('../task.json').tasks;
 
 // Create a new task
-exports.createTask = (title, description, completed) => {
+exports.createTask = async (title, description, completed) => {
     const newTask = {
         id: tasks.length + 1,
         title,
@@ -9,7 +9,7 @@ exports.createTask = (title, description, completed) => {
         completed
     };
     tasks.push(newTask);
-    return newTask;
+    return new Promise((resolve) => resolve(newTask));
 };
 
 // Get all tasks
@@ -23,7 +23,7 @@ exports.getTaskById = (id) => {
 };
 
 // Update a task by ID
-exports.updateTaskById = (id, title, description, completed) => {
+exports.updateTaskById = async (id, title, description, completed) => {
     const task = tasks.find(t => t.id === id);
     if (!task) {
         return null;
@@ -31,15 +31,15 @@ exports.updateTaskById = (id, title, description, completed) => {
     task.title = title;
     task.description = description;
     task.completed = completed;
-    return task;
+    return new Promise((resolve) => resolve(task));
 };
 
 // Delete a task by ID
-exports.deleteTaskById = (id) => {
+exports.deleteTaskById = async (id) => {
     const taskIndex = tasks.findIndex(t => t.id === id);
     if (taskIndex === -1) {
         return false;
     }
     tasks.splice(taskIndex, 1);
-    return true;
+    return new Promise((resolve) => resolve(true));
 };

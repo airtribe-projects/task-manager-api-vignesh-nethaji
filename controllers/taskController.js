@@ -1,13 +1,17 @@
 const taskModel = require('../models/taskModel');
 
 // Create a new task
-exports.createTask = (req, res) => {
+exports.createTask = async (req, res) => {
     const { title, description, completed } = req.body;
     if (!title || !description || typeof completed !== 'boolean') {
         return res.status(400).send('Invalid data');
     }
-    const newTask = taskModel.createTask(title, description, completed);
-    res.status(201).json(newTask);
+    try {
+        const newTask = await taskModel.createTask(title, description, completed);
+        res.status(201).json(newTask);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to create task' });
+    }
 };
 
 // Get all tasks
@@ -26,23 +30,31 @@ exports.getTaskById = (req, res) => {
 };
 
 // Update a task by ID
-exports.updateTaskById = (req, res) => {
+exports.updateTaskById = async (req, res) => {
     const { title, description, completed } = req.body;
     if (!title || !description || typeof completed !== 'boolean') {
         return res.status(400).send('Invalid data');
     }
-    const updatedTask = taskModel.updateTaskById(parseInt(req.params.id), title, description, completed);
-    if (!updatedTask) {
-        return res.status(404).send('Task not found');
+    try {
+        const updatedTask = await taskModel.updateTaskById(parseInt(req.params.id), title, description, completed);
+        if (!updatedTask) {
+            return res.status(404).send('Task not found');
+        }
+        res.status(200).json(updatedTask);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to update task' });
     }
-    res.status(200).json(updatedTask);
 };
 
 // Delete a task by ID
-exports.deleteTaskById = (req, res) => {
-    const deleted = taskModel.deleteTaskById(parseInt(req.params.id));
-    if (!deleted) {
-        return res.status(404).send('Task not found');
+exports.deleteTaskById = async (req, res) => {
+    try {
+        const deleted = await taskModel.deleteTaskById(parseInt(req.params.id));
+        if (!deleted) {
+            return res.status(404).send('Task not found');
+        }
+        res.status(200).send('Task deleted successfully');
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete task' });
     }
-    res.status(200).send('Task deleted successfully');
 };
